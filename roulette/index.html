@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <style type="text/css">
+  	#mainWheel {
+  		text-align:center; 
+  		width: 400px;
+  		position: relative;
+  	}
+  	.selectedSlot {
+	  	position: absolute;
+	    top: 53%;
+	    display: block;
+	    left: 50%;
+	    transform: translate(-50%, -50%);
+	    font-weight: bold;
+	    font-size: 30px;
+  	}
+  </style>
+</head>
+<body>
+	<div id="vegasGame">
+		<table>
+			<tr valign="top">
+				<td>
+					<div id="mainWheel">
+						<img src="arrow.png"><br>
+						<img id="wheel" src="rouletteWheel.png" width="400">
+						<div class="selectedSlot">{{selectedNum}} {{selectedColor}}</div>
+					</div>
+				</td>
+				<td>
+					<h2>ChipCount: {{ chipCount }}</h2>
+					<table>
+						<tr><td>Bet 1:</td><td><input type="text" v-model="P1Choice" :disabled="this.chipCount < 1"></td><td>{{winCheck(P1Choice)}}</td></tr>
+						<tr><td>Bet 2:</td><td><input type="text" v-model="P2Choice" :disabled="this.chipCount < 2"></td><td>{{winCheck(P2Choice)}}</td></tr>
+						<tr><td>Bet 3:</td><td><input type="text" v-model="P3Choice" :disabled="this.chipCount < 3"></td><td>{{winCheck(P3Choice)}}</td></tr>
+						<tr><td>Bet 4:</td><td><input type="text" v-model="P4Choice" :disabled="this.chipCount < 4"></td><td>{{winCheck(P4Choice)}}</td></tr>
+						<tr><td>Bet 5:</td><td><input type="text" v-model="P5Choice" :disabled="this.chipCount < 5"></td><td>{{winCheck(P5Choice)}}</td></tr>
+					</table>
+					<button @click="spin()" v-if="this.chipCount > 0">Try Your Luck</button>
+					<button @click="chipCount=100" v-else>No more money - Start Over?</button>
+
+				</td>
+			</tr>
+		</table>
+		
+		 
+
+	</div>
+  <script type="text/javascript">
+
+
+	var app2 = new Vue({
+	  el: '#vegasGame',
+	  data: {
+	    ringNumbers: [0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26],
+	    selectedNum: 0,
+	    selectedColor: 'Green',
+		P1Choice: 12,
+		P2Choice: 3,
+		P3Choice: 23,
+		P4Choice: 21,
+		P5Choice: 22,
+		chipCount: 50,
+		spinning: false
+	  },
+	  methods:{
+	  	winCheck: function(val){
+	  		if( this.spinning ) {
+					return '';
+				}
+				return val == this.selectedNum ? "You Won": "You Lose";
+	  	},
+	  	getColor: function(pos) {
+	        if(pos == 0) return 'Green';
+	        if(pos%2) return 'Red';
+	        return 'Black';
+	    },
+	  	spin: function() {
+	  		var _self = this;
+	  		var wheel = document.getElementById('wheel');
+	        wheel.style.transition = "200ms ease all";
+	        wheel.style.transform = "rotate(0)";
+					this.spinning = true;
+	        setTimeout(function(){
+	            var num = Math.floor(Math.random() * 37 );
+	            var rotations = (Math.floor(Math.random() * 4) + 1) * 360;
+	            wheel.style.transition = "1600ms ease all";
+	            wheel.style.transform = "rotate(-" + (rotations + ((360/37) * num)) + "deg)";
+	            setTimeout(function(){
+	            	_self.selectedNum = _self.ringNumbers[num];
+	            	_self.selectedColor = _self.getColor(num);
+	            	console.log(_self.ringNumbers[num], _self.getColor(num) );
+	            	_self.calculateWinnings();
+								_self.spinning = false;
+	            },1700)
+	        },200)
+	    },
+			calculateWinnings: function () {
+				var winningNumber = this.selectedNum;
+				var startingChipCount = this.chipCount;
+				if ( startingChipCount >= 5) {
+					if( this.P5Choice == winningNumber ) {
+						this.chipCount = this.chipCount + 36;
+					}
+					this.chipCount--;
+				}
+				if ( startingChipCount >= 4) {
+					if( this.P4Choice == winningNumber ) {
+						this.chipCount = this.chipCount + 36;
+					}
+					this.chipCount--;
+				}
+				if ( startingChipCount >= 3) {
+					if( this.P3Choice == winningNumber ) {
+						this.chipCount = this.chipCount + 36;
+					}
+					this.chipCount--;
+				}
+				if ( startingChipCount >= 2) {
+					if( this.P2Choice == winningNumber ) {
+						this.chipCount = this.chipCount + 36;
+					}
+					this.chipCount--;
+				}
+				if ( startingChipCount >= 1) {
+					if( this.P1Choice == winningNumber ) {
+						this.chipCount = this.chipCount + 36;
+					}
+					this.chipCount--;
+				}
+			}
+	  }
+	
+	});
+
+
+
+
+  </script>
+</body>
+</html>
