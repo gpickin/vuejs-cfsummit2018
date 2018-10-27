@@ -32,7 +32,7 @@
             <li class="active"><a href="#">Home</a></li>
             <li><a href="http://www.gpickin.com/" target="_blank">Blog</a></li>
             <li><a href="https://twitter.com/gpickin" target="_blank">Twitter</a></li>
-            <li><a href="slides.pdf" target="_blank">Slides</a></li>
+            <li><a href="CFSummit2018-VueJS.pdf" target="_blank">Slides</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -84,7 +84,7 @@
       </div>
       
       <div>
-        <p>Download Slides: <a href="slides.pdf" target="_blank">Slides.pdf</a></p>
+        <p>Download Slides: <a href="CFSummit2018-VueJS.pdf" target="_blank">CFSummit2018-VueJS.pdf</a></p>
       </div>
 
     </div> <!-- /container -->
